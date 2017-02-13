@@ -1,8 +1,8 @@
 # BTMS
 Bus Transportation Management System (BTMS)
 Given the problem description below, define a domain model using a 
-class diagram for the concepts of the proposed
-Bus Transportation Management System and their relationships.
+class diagram for the concepts of the proposed Bus Transportation
+Management System and their relationships.
 Problem Description
 A city is using the Bus Transportation Management System (BTMS) to simplify the day-to-day
 activities related to the city’s public bus system.
