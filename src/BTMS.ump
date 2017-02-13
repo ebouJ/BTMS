@@ -1,0 +1,81 @@
+namespace ca.mcgill.ecse223.btms.model;
+
+use BTMSPersistence.ump;
+
+class BTMS {
+  1 <@>- * BusVehicle vehicles;
+  1 <@>- * Route routes;
+  1 <@>- * RouteAssignment assignments;
+  1 <@>- * Driver drivers;
+  1 <@>- * DriverSchedule schedule;
+  
+  public java.util.Date getCurrentDate() {
+    java.util.Calendar cal = java.util.Calendar.getInstance();
+    cal.set(Calendar.HOUR_OF_DAY, 0);
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0);
+    java.util.Date date = cal.getTime();
+    return date;
+  }
+  
+}
+
+class BusVehicle {
+  unique String licencePlate;
+  Boolean inRepairShop;
+  before constructor {
+    if (aLicencePlate == null || aLicencePlate.length() == 0) {
+	  throw new RuntimeException("The licence plate of a bus cannot be empty.");
+	}
+  }
+  before setLicencePlate {
+    if (aLicencePlate == null || aLicencePlate.length() == 0) {
+	  return false;
+	}
+  }
+  
+  public RouteAssignment getAssignmentOnDate(Date date) {
+    RouteAssignment result = null;
+    for (RouteAssignment assignment : getRouteAssignments()) {
+      if (assignment.getDate().equals(date)) {
+        result = assignment;
+        break;
+      }
+    }
+    return result;
+   }
+  
+}
+
+class Route {
+  unique Integer number;
+}
+
+class RouteAssignment {
+  Date date;
+  * -- 1 BusVehicle bus;
+  * -- 1 Route route;
+}
+
+class Driver {
+  name;
+  autounique id;
+  Boolean onSickLeave;
+  before constructor {
+    if (aName == null || aName.length() == 0) {
+	  throw new RuntimeException("The name of a driver cannot be empty.");
+	}
+  }
+  before setName {
+    if (aName == null || aName.length() == 0) {
+	  return false;
+	}
+  }
+}
+
+class DriverSchedule {
+  shift { Morning{} Afternoon{} Night{} }
+  * -- 1 Driver driver;
+  * -- 1 RouteAssignment assignment;
+}
